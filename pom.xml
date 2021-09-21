@@ -12,6 +12,9 @@
     <artifactId>mathtasksapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mathtasksapp</name>
+    <properties>
+        <java.version>16</java.version>
+    </properties>
     <description>Project for solving math tasks</description>
     <dependencies>
         <dependency>
@@ -89,8 +92,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>15</source>
-                    <target>15</target>
+                    <source>16</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
