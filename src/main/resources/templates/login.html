@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login page</title>
 </head>
 <body>
     <p>login page</p>
+    <a th:href="@{/oauth2/authorization/google}">google</a>
+    <br>
+    <a th:href="@{/oauth2/authorization/github}">github</a>
 </body>
 </html>
