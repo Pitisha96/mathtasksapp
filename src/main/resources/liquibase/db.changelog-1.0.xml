@@ -61,4 +61,166 @@
             <column name="name" value="ROLE_ADMIN"/>
         </insert>
     </changeSet>
+    <changeSet id="1.0.7" author="ilya.petrovski">
+        <createTable tableName="themes">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.8" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Элементарная математика"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.9" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Рациональные уравнения и системы"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.10" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Модули"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.11" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Счет, степени, корни"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.12" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Иррациональные уравнения и системы"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.13" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Рациональные неравенства"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.14" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Иррациональные неравенства"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.15" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Показательные уравнения, системы и неравенства"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.16" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Логарифмические уравнения, системы и неравенства"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.17" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Тригонометрия"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.18" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Функции и графики"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.19" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Прогрессии"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.20" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Планиметрия(Геометрия на плоскости)"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.21" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Стереометрия(Геометрия в пространстве)"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.22" author="ilya.petrovski">
+        <insert tableName="themes">
+            <column name="name" value="Текстовые задачи"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.23" author="ilya.petrovski">
+        <createTable tableName="tasks">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="published" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="theme_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.24" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="tasks"
+                baseColumnNames="theme_id"
+                constraintName="fk_tasks_themes"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="themes"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.25" author="ilya.petrovski">
+        <createTable tableName="tags">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.26" author="ilya.petrovski">
+        <createTable tableName="task_tags">
+            <column name="task_id" type="BIGINT"/>
+            <column name="tag_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.27" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="task_tags"
+                baseColumnNames="task_id"
+                constraintName="fk_task_task_tags"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.28" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="task_tags"
+                baseColumnNames="tag_id"
+                constraintName="fk_task_tags_tags"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tags"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.29" author="ilya.petrovski">
+        <insert tableName="users">
+            <column name="username" value="petrikin1996@gmail.com"/>
+            <column name="principal_name" value="110505542893650732913"/>
+        </insert>
+    </changeSet>
+    <changeSet id="1.0.29" author="ilya.petrovski">
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
