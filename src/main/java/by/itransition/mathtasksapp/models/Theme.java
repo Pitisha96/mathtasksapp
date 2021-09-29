@@ -15,6 +15,7 @@ public class Theme {
 
     private String name;
 
+    @Transient
     @OneToMany(mappedBy = "theme",fetch = FetchType.LAZY)
     private Set<Task> tasks;
 }

@@ -163,6 +163,9 @@
             <column name="theme_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="owner_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet id="1.0.24" author="ilya.petrovski">
@@ -176,6 +179,16 @@
                 referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="1.0.25" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="tasks"
+                baseColumnNames="owner_id"
+                constraintName="fk_tasks_users"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.26" author="ilya.petrovski">
         <createTable tableName="tags">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
@@ -185,13 +198,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1.0.26" author="ilya.petrovski">
+    <changeSet id="1.0.27" author="ilya.petrovski">
         <createTable tableName="task_tags">
             <column name="task_id" type="BIGINT"/>
             <column name="tag_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet id="1.0.27" author="ilya.petrovski">
+    <changeSet id="1.0.28" author="ilya.petrovski">
         <addForeignKeyConstraint
                 baseTableName="task_tags"
                 baseColumnNames="task_id"
@@ -201,7 +214,7 @@
                 referencedTableName="tasks"
                 referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="1.0.28" author="ilya.petrovski">
+    <changeSet id="1.0.29" author="ilya.petrovski">
         <addForeignKeyConstraint
                 baseTableName="task_tags"
                 baseColumnNames="tag_id"
@@ -211,16 +224,42 @@
                 referencedTableName="tags"
                 referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="1.0.29" author="ilya.petrovski">
+    <changeSet id="1.0.30" author="ilya.petrovski">
         <insert tableName="users">
             <column name="username" value="petrikin1996@gmail.com"/>
             <column name="principal_name" value="110505542893650732913"/>
         </insert>
     </changeSet>
-    <changeSet id="1.0.29" author="ilya.petrovski">
+    <changeSet id="1.0.31" author="ilya.petrovski">
         <insert tableName="user_roles">
             <column name="user_id" value="1"/>
             <column name="role_id" value="2"/>
         </insert>
+    </changeSet>
+    <changeSet id="1.0.32" author="ilya.petrovski">
+        <createTable tableName="user_tasks">
+            <column name="user_id" type="BIGINT"/>
+            <column name="task_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.33" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="user_tasks"
+                baseColumnNames="user_id"
+                constraintName="fk_users_user_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.34" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="user_tasks"
+                baseColumnNames="task_id"
+                constraintName="fk_user_tasks_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>

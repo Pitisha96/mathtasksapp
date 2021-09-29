@@ -30,4 +30,12 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "tag_id",referencedColumnName = "id")
     )
     private Set<Tag> tags;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    @Transient
+    @ManyToMany(mappedBy = "solvedTasks",fetch = FetchType.LAZY)
+    private Set<User> users;
 }

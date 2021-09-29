@@ -1,9 +1,5 @@
 package by.itransition.mathtasksapp.controllers;
 
-import by.itransition.mathtasksapp.models.User;
-import by.itransition.mathtasksapp.repositories.RoleRepository;
-import by.itransition.mathtasksapp.repositories.UserRepository;
-import by.itransition.mathtasksapp.services.RoleService;
 import by.itransition.mathtasksapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
