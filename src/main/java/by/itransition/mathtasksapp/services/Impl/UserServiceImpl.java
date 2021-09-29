@@ -1,6 +1,5 @@
 package by.itransition.mathtasksapp.services.Impl;
 
-import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import by.itransition.mathtasksapp.repositories.UserRepository;
 import by.itransition.mathtasksapp.services.RoleService;
@@ -15,7 +14,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

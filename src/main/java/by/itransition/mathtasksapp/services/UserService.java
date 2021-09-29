@@ -1,10 +1,7 @@
 package by.itransition.mathtasksapp.services;
 
-import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-
-import java.util.List;
 
 public interface UserService{
     User save(User user);

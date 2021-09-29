@@ -18,7 +18,7 @@ public class GreetingPageController {
     }
 
     @GetMapping("/")
-    public String greeting(@AuthenticationPrincipal OAuth2User principal,Model model){
+    public String greeting(){
         return "greeting";
     }
 }

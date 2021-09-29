@@ -8,4 +8,6 @@ import java.util.List;
 public interface TaskService {
     Long countByOwner(User user);
     List<Task> findAllByOwner(User user);
+    Task save(Task task);
+    Task getById(Long id);
 }

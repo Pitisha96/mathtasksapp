@@ -1,6 +1,7 @@
 package by.itransition.mathtasksapp.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -11,6 +12,7 @@ import java.util.*;
 @Entity
 @Table(name="users")
 @Data
+@NoArgsConstructor
 public class User implements OAuth2User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,10 @@ public class User implements OAuth2User {
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
     private Set<Task> solvedTasks;
+
+    public User(long id) {
+        this.id = id;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
