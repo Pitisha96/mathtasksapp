@@ -15,5 +15,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
     List<Task> findAllByOwner(User owner);
     Optional<Task> findByName(String name);
     @Query(value = "select * from tasks order by published desc limit 10",nativeQuery = true)
-    List<Task> findLast10();
+    List<Task> findLast10Published();
+    @Query(value = "select * from tasks order by rating desc limit 10",nativeQuery = true)
+    List<Task> findTop10Rating();
 }

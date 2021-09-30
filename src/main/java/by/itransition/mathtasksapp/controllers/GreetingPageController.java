@@ -17,7 +17,8 @@ public class GreetingPageController {
 
     @GetMapping("/")
     public String greeting(Model model){
-        model.addAttribute("lastPublished",taskService.getLastPublished());
+        model.addAttribute("lastPublished",taskService.getLast10Published());
+        model.addAttribute("topRating",taskService.getFirst10Rating());
         return "greeting";
     }
 }
