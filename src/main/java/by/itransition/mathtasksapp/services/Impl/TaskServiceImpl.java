@@ -43,12 +43,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getLast10Published() {
-        return taskRepository.findLast10Published();
+    public List<Task> getLast5Published() {
+        return taskRepository.findLast5Published();
     }
 
     @Override
-    public List<Task> getFirst10Rating() {
-        return taskRepository.findTop10Rating();
+    public List<Task> getFirst5Rating() {
+        return taskRepository.findTop5Rating();
     }
 }

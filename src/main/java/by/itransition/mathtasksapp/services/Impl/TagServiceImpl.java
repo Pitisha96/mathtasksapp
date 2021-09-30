@@ -6,6 +6,7 @@ import by.itransition.mathtasksapp.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,5 +25,10 @@ public class TagServiceImpl implements TagService {
             return tagFromDB.get();
         }
         return tagRepository.save(tag);
+    }
+
+    @Override
+    public List<Tag> getLast12Tags() {
+        return tagRepository.findLast12Tags();
     }
 }

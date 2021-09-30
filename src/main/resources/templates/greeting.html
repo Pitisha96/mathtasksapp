@@ -3,13 +3,17 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" th:content="${_csrf.getToken()}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Greeting</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: orangered">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">MathTasks</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,27 +22,40 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-dark" type="submit">Search</button>
                 </form>
             <div sec:authorize="!isAuthenticated">
-                <a class="btn btn-outline-success" th:href="@{/login}">Log in</a>
+                <a class="btn btn-outline-dark" th:href="@{/login}">Log in</a>
             </div>
             <div sec:authorize="isAuthenticated">
-                <a class="btn btn-outline-success" href="#" onclick="logout()">Log out</a>
+                <a class="btn btn-outline-dark" href="#" onclick="logout()">Log out</a>
             </div>
         </div>
     </div>
 </nav>
-<div th:each="task:${lastPublished}">
-    <h3 th:text="${task.name}"></h3>
-    <br>
-    <p th:text="${task.theme.name}"></p>
-</div>
-<hr/>
-<div th:each="task:${topRating}">
-    <h3 th:text="${task.name}"></h3>
-    <br>
-    <p th:text="${task.theme.name}"></p>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-lg-6 p-1">
+            <h5>Последние опубликованные задачи:</h5>
+            <div class="btn btn-outline-dark" th:each="task:${lastPublished}" style="width: 100%">
+                <h6 th:text="${task.name}"></h6>
+                <p th:text="${task.theme.name}"></p>
+            </div>
+        </div>
+        <div class="col-lg-6 p-1">
+            <h5>Популярные задачи:</h5>
+            <div class="btn btn-outline-dark" th:each="task:${lastPublished}" style="width: 100%">
+                <h6 th:text="${task.name}"></h6>
+                <p th:text="${task.theme.name}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <h5>Последние использованные теги:</h5>
+        <div class="col-lg-1" th:each="tag:${lastTags}">
+            <a class="btn btn-dark btn-sm" href="#" th:text="${tag.name}+' '" style="width: 100%"></a>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="/js/logout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
