@@ -61,6 +61,6 @@ public class TaskController {
     @GetMapping("/task/{id}")
     public String get(@PathVariable("id") Long id,Model model){
         model.addAttribute(taskService.getById(id));
-        return null;
+        return "task";
     }
 }

@@ -166,6 +166,9 @@
             <column name="owner_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
+            <column name="rating" type="FLOAT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
     <changeSet id="1.0.24" author="ilya.petrovski">

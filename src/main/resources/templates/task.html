@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Task</title>
 </head>
 <body>
-    <html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <h1 th:text="${task.name}"></h1>
+    <br>
+    <p th:text="${task.theme.name}"></p>
+    <br>
+    <textarea readonly th:text="${task.content}"/>
+    <p th:each="tag:${task.tags}" th:text="${tag.name}"></p>
 </body>
 </html>

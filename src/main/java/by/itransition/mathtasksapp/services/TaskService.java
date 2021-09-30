@@ -10,4 +10,5 @@ public interface TaskService {
     List<Task> findAllByOwner(User user);
     Task save(Task task);
     Task getById(Long id);
+    List<Task> getLastPublished();
 }

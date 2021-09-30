@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add task</title>
+</head>
+<body>
+    <form method="post" th:action="@{/task/add}" id="add_task">
+        <label for="theme">Theme:</label>
+        <select form="add_task" id="theme" name="theme">
+            <option th:each="theme:${themes}" th:text="${theme.name}" th:value="${theme.id}">option</option>
+        </select>
+        <br>
+        <label for="name">Name task:</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="content">Content:</label>
+        <textarea id="content" name="content"></textarea>
+        <br>
+        <label for="tags">Tags:</label>
+        <input type="text" id="tags" name="tags">
+        <br>
+        <input type="submit" value="add"/>
+    </form>
+</body>
+</html>

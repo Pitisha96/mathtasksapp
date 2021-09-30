@@ -22,6 +22,8 @@ public class Task {
 
     private Date published;
 
+    private double rating;
+
     @ManyToOne
     @JoinColumn(name = "theme_id")
     private Theme theme;

@@ -41,4 +41,9 @@ public class TaskServiceImpl implements TaskService {
     public Task getById(Long id) {
         return taskRepository.getById(id);
     }
+
+    @Override
+    public List<Task> getLastPublished() {
+        return taskRepository.findLast10();
+    }
 }
