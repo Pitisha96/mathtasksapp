@@ -37,13 +37,13 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping("/task/add")
-    public String show(Model model){
+    @GetMapping("/form_task")
+    public String showForm(Model model){
         model.addAttribute("themes",themeService.getAll());
-        return "add_task";
+        return "form_task";
     }
 
-    @PostMapping("/task/add")
+    @PostMapping("/task")
     public String add(@AuthenticationPrincipal OAuth2User principal,
                       @RequestParam("theme") Long themeId,
                       @RequestParam(value = "name",required = false) String name,

@@ -5,7 +5,7 @@
     <title>Add task</title>
 </head>
 <body>
-    <form method="post" th:action="@{/task/add}" id="add_task">
+    <form method="post" th:action="@{/task}" id="add_task">
         <label for="theme">Theme:</label>
         <select form="add_task" id="theme" name="theme">
             <option th:each="theme:${themes}" th:text="${theme.name}" th:value="${theme.id}">option</option>

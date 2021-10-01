@@ -23,10 +23,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/error","/","/resources/**").permitAll()
-                    .antMatchers("/login").not().fullyAuthenticated()
-                    .antMatchers("/css/**").permitAll()
-                    .antMatchers("/img/**").permitAll()
-                    .antMatchers("/js/**").permitAll()
+                    .antMatchers("/css/**","/img/**","/js/**","/task/**").permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/user").hasRole("USER")
                     .anyRequest().authenticated()
@@ -34,9 +31,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .and()
                 .oauth2Login()
-                    .loginPage("/login")
-                    .defaultSuccessUrl("/")
-                    .failureUrl("/")
+                    .loginPage("/")
                         .userInfoEndpoint()
                             .userService(userService);
     }

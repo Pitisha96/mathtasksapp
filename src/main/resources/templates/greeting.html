@@ -19,10 +19,34 @@
         color: orangered;
     }
 </style>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sign in with:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row my-lg-2 my-1">
+                        <a class="btn btn-dark" th:href="@{/oauth2/authorization/google}">google</a>
+                    </div>
+                    <div class="row my-lg-2 my-1">
+                        <a class="btn btn-dark" th:href="@{/oauth2/authorization/github}">github</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: orangered">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">MathTasks</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
@@ -31,7 +55,9 @@
                     <button class="btn btn-outline-dark" type="submit">Search</button>
                 </form>
             <div sec:authorize="!isAuthenticated">
-                <a class="btn btn-outline-dark my-2" th:href="@{/login}">Log in</a>
+                <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Log in
+                </button>
             </div>
             <div sec:authorize="isAuthenticated">
                 <a class="btn btn-outline-dark my-2" href="#" onclick="logout()">Log out</a>
@@ -43,7 +69,7 @@
     <div class="row mt-3">
         <div class="col-lg-6 p-1">
             <h5>Последние опубликованные задачи:</h5>
-            <div class="btn btn-outline-dark" th:each="task:${lastPublished}" style="width: 100%">
+            <a class="btn btn-outline-dark w-100" th:href="@{/task/{id}(id=${task.id})}" th:each="task:${lastPublished}">
                 <h6 class="text-truncate my-0" th:text="${task.name}"></h6>
                 <p class="small my-0" th:text="${task.theme.name}"></p>
                 <div>
@@ -53,11 +79,11 @@
                     <span class="fa fa-star" th:classappend="${task.rating>=3.5}?'checked':''"></span>
                     <span class="fa fa-star" th:classappend="${task.rating>=4.5}?'checked':''"></span>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="col-lg-6 p-1">
             <h5>Популярные задачи:</h5>
-            <div class="btn btn-outline-dark" th:each="task:${topRating}" style="width: 100%">
+            <a class="btn btn-outline-dark w-100" th:href="@{/task/{id}(id=${task.id})}" th:each="task:${topRating}">
                 <h6 class="text-truncate my-0" th:text="${task.name}"></h6>
                 <p class="small my-0" th:text="${task.theme.name}"></p>
                 <div>
@@ -67,7 +93,7 @@
                     <span class="fa fa-star" th:classappend="${task.rating>=3.5}?'checked':''"></span>
                     <span class="fa fa-star" th:classappend="${task.rating>=4.5}?'checked':''"></span>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     <div class="row mt-1">
