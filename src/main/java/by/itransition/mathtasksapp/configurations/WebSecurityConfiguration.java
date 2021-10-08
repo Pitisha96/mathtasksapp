@@ -1,7 +1,6 @@
 package by.itransition.mathtasksapp.configurations;
 
 import by.itransition.mathtasksapp.services.Impl.UserServiceImpl;
-import by.itransition.mathtasksapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +22,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/error","/","/resources/**").permitAll()
-                    .antMatchers("/css/**","/img/**","/js/**","/task/**").permitAll()
+                    .antMatchers("/css/**","/img/**","/js/**","/task/**","/search").permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/user").hasRole("USER")
                     .anyRequest().authenticated()

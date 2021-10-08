@@ -12,4 +12,5 @@ public interface TaskService {
     Task getById(Long id);
     List<Task> getLast5Published();
     List<Task> getFirst5Rating();
+    List<Task> searchTasks(String searchLine);
 }

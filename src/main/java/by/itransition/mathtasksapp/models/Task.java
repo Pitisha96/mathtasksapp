@@ -2,12 +2,15 @@ package by.itransition.mathtasksapp.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Indexed
 @Table(name="tasks")
 @Data
 @NoArgsConstructor
@@ -16,8 +19,10 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @FullTextField
     private String name;
 
+    @FullTextField
     private String content;
 
     private Date published;

@@ -4,19 +4,25 @@ import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import by.itransition.mathtasksapp.repositories.TaskRepository;
 import by.itransition.mathtasksapp.services.TaskService;
+import org.hibernate.search.engine.search.query.SearchResult;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
+    private final EntityManager entityManager;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository) {
+    public TaskServiceImpl(TaskRepository taskRepository, EntityManager entityManager) {
         this.taskRepository = taskRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -50,5 +56,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getFirst5Rating() {
         return taskRepository.findTop5Rating();
+    }
+
+    @Override
+    public List<Task> searchTasks(String searchLine) {
+        SearchSession searchSession = Search.session(entityManager);
+        SearchResult<Task> result = searchSession.search(Task.class)
+                .where(f->f.match()
+                    .fields("name","content")
+                    .matching(searchLine))
+                .fetchAll();
+        return result.hits();
     }
 }

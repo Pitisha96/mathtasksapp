@@ -40,9 +40,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-            <form class="d-flex my-2">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-dark" type="submit">Search</button>
+            <form th:method="get" th:action="@{/search}" class="d-flex my-2">
+                <input class="form-control me-2" type="search" placeholder="Search" name="search"
+                       aria-label="Search">
+                <input class="btn btn-outline-dark" type="submit" value="Search"/>
             </form>
             <div sec:authorize="!isAuthenticated">
                 <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">

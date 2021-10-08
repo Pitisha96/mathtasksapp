@@ -37,6 +37,13 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam("search") String searchLine,Model model){
+        model.addAttribute("tasks",taskService.searchTasks(searchLine));
+        System.out.println(searchLine);
+        return "search_results";
+    }
+
     @GetMapping("/form_task")
     public String showForm(Model model){
         model.addAttribute("themes",themeService.getAll());

@@ -17,6 +17,11 @@
     <title>Add task</title>
 </head>
 <body>
+<style>
+    #tags-input::-webkit-calendar-picker-indicator{
+        display: none !important;
+    }
+</style>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: orangered">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">MathTasks</a>
@@ -25,9 +30,10 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-            <form class="d-flex my-2">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-dark" type="submit">Search</button>
+            <form th:method="get" th:action="@{/search}" class="d-flex my-2">
+                <input class="form-control me-2" type="search" placeholder="Search" name="search"
+                       aria-label="Search">
+                <input class="btn btn-outline-dark" type="submit" value="Search"/>
             </form>
             <div sec:authorize="!isAuthenticated">
                 <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">
@@ -61,8 +67,12 @@
                 </div>
                 <div class="row my-lg-2">
                     <div class="col">
-                        <input class="form-control border-dark" type="text" name="tags"
-                               id="tags-input" placeholder="#Tags">
+                        <input list="tags" class="form-control border-dark" type="text" name="tags"
+                               id="tags-input" placeholder="#Tags" autocomplete="off">
+                        <datalist id="tags">
+                            <option value="vasiya"/>
+                            <option value="pupkin"/>
+                        </datalist>
                     </div>
                 </div>
             </div>
@@ -128,8 +138,6 @@
         </div>
     </div>
 </form>
-
-
 <script type="text/javascript" src="/js/markdown-core.js"></script>
 <script type="text/javascript" src="/js/logout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
