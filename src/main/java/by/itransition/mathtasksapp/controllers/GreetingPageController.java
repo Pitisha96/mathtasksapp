@@ -20,9 +20,9 @@ public class GreetingPageController {
 
     @GetMapping("/")
     public String greeting(Model model){
-        model.addAttribute("lastPublished",taskService.getLast5Published());
-        model.addAttribute("topRating",taskService.getFirst5Rating());
-        model.addAttribute("lastTags",tagService.getLast12Tags());
+        model.addAttribute("lastPublished",taskService.getLastPublished(5));
+        model.addAttribute("topRating",taskService.getFirstRating(5));
+        model.addAttribute("lastTags",tagService.getLastTags(12));
         return "greeting";
     }
 }

@@ -10,7 +10,7 @@ public interface TaskService {
     List<Task> findAllByOwner(User user);
     Task save(Task task);
     Task getById(Long id);
-    List<Task> getLast5Published();
-    List<Task> getFirst5Rating();
+    List<Task> getLastPublished(int limit);
+    List<Task> getFirstRating(int limit);
     List<Task> searchTasks(String searchLine);
 }

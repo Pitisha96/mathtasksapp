@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface TagRepository extends JpaRepository<Tag,Long> {
     Optional<Tag> findByName(String name);
-    @Query(value = "select * from tags order by id desc limit 12",nativeQuery = true)
-    List<Tag> findLast12Tags();
+    @Query(value = "select * from tags order by id desc limit ?1",nativeQuery = true)
+    List<Tag> findLastTagsByLimit(int limit);
+    List<Tag> findAllByNameContaining(String name);
+
 }
