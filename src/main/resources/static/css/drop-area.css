@@ -1,0 +1,16 @@
+.drop-area {
+    border: 1px dashed black;
+    border-radius: 10px;
+    height:20vh;
+}
+
+.drop-area.highlight{
+    border:2px dashed orangered;
+
+}
+.fileElem{
+    display: none;
+}
+.drop-area img{
+    border: 2px solid black;
+}

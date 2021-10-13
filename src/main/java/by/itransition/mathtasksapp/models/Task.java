@@ -7,6 +7,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,7 +49,16 @@ public class Task {
     @ManyToMany(mappedBy = "solvedTasks",fetch = FetchType.LAZY)
     private Set<User> users;
 
-    public Task(String name, String content, Date published, Theme theme, Set<Tag> tags, User owner) {
+    @Transient
+    @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
+    private List<Image> images;
+
+    @Transient
+    @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
+    private List<Answer> answers;
+
+    public Task(String name, String content, Date published, Theme theme,
+                Set<Tag> tags, User owner) {
         this.name = name;
         this.content = content;
         this.published = published;

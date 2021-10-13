@@ -8,8 +8,10 @@ import by.itransition.mathtasksapp.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +47,17 @@ public class TagServiceImpl implements TagService {
     public List<TagDto> getAllByNameContains(String name) {
         return tagRepository.findAllByNameContaining(name).stream()
                 .map(TagMapper.INSTANCE::tagToTagDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Set<Tag> saveTagsByTagString(String stringTags) {
+        Set<Tag> tags = new HashSet<>();
+        for (String tagName : stringTags.split(" ")) {
+            if(!tagName.equals(" ")){
+                tags.add(save(new Tag(tagName)));
+            }
+        }
+        return tags;
     }
 
 

@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/drop-area.css">
     <script src="https://kit.fontawesome.com/9002068d0d.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -18,6 +19,9 @@
 </head>
 <body>
 <style>
+    ::-webkit-scrollbar{
+        width: 0;
+    }
     #tags-input::-webkit-calendar-picker-indicator{
         display: none !important;
     }
@@ -46,10 +50,10 @@
         </div>
     </div>
 </nav>
-<form th:method="post" th:action="@{/task}" id="add_task">
+<form th:method="post" th:action="@{/task}" enctype="multipart/form-data" id="add_task">
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-lg-6 p-1">
+            <div class="col-lg-6 my-lg-0">
                 <div class="row mt-lg-5">
                     <div class="col">
                         <select class="form-select border-dark" form="add_task" id="theme" name="theme">
@@ -60,24 +64,81 @@
                 </div>
                 <div class="row my-lg-2">
                     <div class="col">
-                        <input class="form-control border-dark" type="text"
+                        <input class="form-control border-dark" type="text" autocomplete="off"
                                name="name" placeholder="Task name">
                     </div>
                 </div>
-                <div class="row my-lg-2 justify-content-between">
+                <div class="row my-lg-2">
                     <div class="col-lg-11">
-                        <input list="tags" class="form-control border-dark"
+                        <input list="tags" type="text" class="form-control border-dark"
                                id="tags-input" placeholder="#Tags" autocomplete="off">
                         <datalist id="tags"></datalist>
                         <input type="hidden" id="tags-hidden" name="tags">
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-1 ps-lg-2">
                         <input type="button" class="btn btn-dark" id="btn-tag" value="+">
                     </div>
                 </div>
                 <div class="row my-lg-2 px-lg-2" id="tags-box"></div>
+                <div class="row my-lg-2">
+                    <div class="col answer-box">
+                        <div class="row">
+                            <div class="col">
+                                <textarea class="form-control border-dark" rows="3"
+                                          name="answer1" placeholder="Answer" style="resize: none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="button" class="btn btn-dark w-100" id="addAnswer" value="add answer"/>
+                    </div>
+                </div>
+                <div class="row my-lg-2 justify-content-between">
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="w-100 drop-area"></div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col">
+                                <label class="btn btn-dark btn-sm w-100" for="fileElem1">Select a file</label>
+                                <input type="file" accept="image/*" class="fileElem" name="file1" id="fileElem1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="w-100 drop-area"></div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col">
+                                <label class="btn btn-dark btn-sm w-100" for="fileElem2">Select a file</label>
+                                <input type="file" accept="image/*" class="fileElem" name="file2" id="fileElem2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="w-100 drop-area"></div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col">
+                                <label class="btn btn-dark btn-sm w-100" for="fileElem3">Select a file</label>
+                                <input type="file" accept="image/*" class="fileElem" name="file3" id="fileElem3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-lg-6 p-1">
+            <div class="col-lg-6 my-lg-0">
                 <div class="row mt-lg-2">
                     <div class="col-lg-3">
                         <button type="button" class="btn btn-outline-dark btn-sm h1">
@@ -125,20 +186,23 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <textarea id="md-editor" class="form-control border-dark" rows="15" name="content"
+                        <textarea id="md-editor" class="form-control border-dark" rows="18" name="content"
                                   placeholder="Content" style="resize: none"></textarea>
                         <div class="md-preview border border-dark rounded" style="overflow: auto"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-3">
-                        <input class="btn btn-dark" type="submit" value="add"/>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row justify-content-end">
+            <div class="col mb-lg-3">
+               <input class="btn btn-dark w-100" type="submit" value="add"/>
             </div>
         </div>
     </div>
 </form>
+<script type="text/javascript" src="/js/add-answer.js"></script>
+<script type="text/javascript" src="/js/drag-and-drop-upload.js"></script>
 <script type="text/javascript" src="/js/markdown-core.js"></script>
 <script type="text/javascript" src="/js/logout.js"></script>
 <script type="text/javascript" src="/js/input-tags.js"/>

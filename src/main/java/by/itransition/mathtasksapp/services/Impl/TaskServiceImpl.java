@@ -37,9 +37,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task save(Task task) {
-        Optional<Task> taskFromDB = taskRepository.findByName(task.getName());
-        if(taskFromDB.isPresent())
-            return taskFromDB.get();
         return taskRepository.save(task);
     }
 

@@ -265,4 +265,42 @@
                 referencedTableName="tasks"
                 referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="1.0.35" author="ilya.petrovski">
+        <createTable tableName="images">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="url" type="VARCHAR"/>
+            <column name="task_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.36" author="ilya.petrovski">
+        <createTable tableName="answers">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="content" type="VARCHAR"/>
+            <column name="task_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.37" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="images"
+                baseColumnNames="task_id"
+                constraintName="fk_images_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.38" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="answers"
+                baseColumnNames="task_id"
+                constraintName="fk_answers_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

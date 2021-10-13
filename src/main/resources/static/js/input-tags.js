@@ -52,7 +52,7 @@ $('#btn-tag').on('click',function (e){
         $('#tags-box').html($('#tags-box').html().concat(
             '<div class="btn btn-dark btn-sm col-lg-auto mx-lg-1">'
             ,$('#tags-input').val(),'</div>'))
-        $('#tags-hidden').val($('#tags-hidden').val().concat(' '+$('#tags-input').val(),))
+        $('#tags-hidden').val($('#tags-hidden').val().concat($('#tags-input').val(),' '))
         $('#tags-input').val('')
     }
 })
