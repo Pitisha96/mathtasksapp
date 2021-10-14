@@ -1,5 +1,7 @@
 package by.itransition.mathtasksapp.services.Impl;
 
+import by.itransition.mathtasksapp.models.Role;
+import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import by.itransition.mathtasksapp.repositories.UserRepository;
 import by.itransition.mathtasksapp.services.RoleService;
@@ -13,9 +15,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
@@ -36,7 +36,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         if(userFromDB.isPresent()){
             return userFromDB.get();
         }
-        user.setRoles(Collections.singleton(roleService.getRoleById(1L)));
+        user.setRoles(Collections.singletonList(roleService.getRoleById(1L)));
         return userRepository.save(user);
     }
 
@@ -75,12 +75,25 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         }else{
             User user = new User();
             user.setUsername((String) attributes.get(keyByPrincipal(oAuth2User)));
-            user.setRoles(Collections.singleton(roleService.findRoleByName("ROLE_USER")));
+            user.setRoles(Collections.singletonList(roleService.getRoleById(1)));
             user.setPrincipalName(oAuth2User.getName());
             user = userRepository.save(user);
             return new DefaultOAuth2User(user.getAuthorities(),
                     user.getAttributes(),
                     "name");
         }
+    }
+    @Override
+    public void addSolved(Long idUser, Task task) {
+        User user= userRepository.getById(idUser);
+        List<Task> solvedTask = user.getSolvedTasks();
+        solvedTask.add(task);
+        user.setSolvedTasks(solvedTask);
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<Role> getRolesByUser(User user) {
+        return userRepository.getById(user.getId()).getRoles();
     }
 }

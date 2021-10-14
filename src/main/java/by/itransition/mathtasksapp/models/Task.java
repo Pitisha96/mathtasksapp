@@ -47,7 +47,7 @@ public class Task {
 
     @Transient
     @ManyToMany(mappedBy = "solvedTasks",fetch = FetchType.LAZY)
-    private Set<User> users;
+    private List<User> users;
 
     @Transient
     @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
@@ -56,6 +56,10 @@ public class Task {
     @Transient
     @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
     private List<Answer> answers;
+
+    public Task(Long id){
+        this.id=id;
+    }
 
     public Task(String name, String content, Date published, Theme theme,
                 Set<Tag> tags, User owner) {

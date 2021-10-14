@@ -1,5 +1,7 @@
 package by.itransition.mathtasksapp.services.Impl;
 
+import by.itransition.mathtasksapp.dto.AnswerDto;
+import by.itransition.mathtasksapp.mappers.AnswerMapper;
 import by.itransition.mathtasksapp.models.Answer;
 import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.repositories.AnswerRepository;
@@ -32,5 +34,17 @@ public class AnswerServiceImpl implements AnswerService {
                 result.add(save(new Answer(answer,task)));
         }
         return result;
+    }
+
+    @Override
+    public List<AnswerDto> getAllAnswerDtoByTask(Task task) {
+        return answerRepository.findAllByTask(task).stream()
+                .map(AnswerMapper.INSTANCE::answerToAnswerDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean containsAnswer(Task task, String answer) {
+        return getAllAnswerDtoByTask(task).stream()
+                .map(AnswerDto::getContent).collect(Collectors.toList()).contains(answer);
     }
 }

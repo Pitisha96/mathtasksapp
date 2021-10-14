@@ -27,6 +27,7 @@ public class UserController {
         model.addAttribute("countTasks",userService.countPublishedTasks(user));
         model.addAttribute("countSolved",userService.countSolved(user));
         model.addAttribute("tasks",taskService.findAllByOwner(user));
+        model.addAttribute("username",user.getUsername());
         return "user";
     }
 }

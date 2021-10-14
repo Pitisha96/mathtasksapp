@@ -27,18 +27,18 @@ public class User implements OAuth2User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns =@JoinColumn(name = "role_id")
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     @Transient
     @OneToMany(mappedBy = "owner",fetch = FetchType.LAZY)
-    private Set<Task> tasks;
+    private List<Task> tasks;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_tasks",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "task_id")
     )
-    private Set<Task> solvedTasks;
+    private List<Task> solvedTasks;
 
     public User(long id) {
         this.id = id;

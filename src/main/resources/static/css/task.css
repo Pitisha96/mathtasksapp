@@ -1,0 +1,7 @@
+::-webkit-scrollbar{
+    width: 0;
+}
+.img-button:hover{
+    cursor: pointer;
+    filter: brightness(40%);
+}

@@ -44,8 +44,14 @@
                     Log in
                 </button>
             </div>
-            <div sec:authorize="isAuthenticated">
-                <a class="btn btn-outline-dark my-2" href="#" onclick="logout()">Log out</a>
+            <div sec:authorize="isAuthenticated" class="nav-item dropdown">
+                <a class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                <ul class="dropdown-menu">
+                    <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin}">Profile</a></li>
+                    <li sec:authorize="hasRole('USER')"><a class="dropdown-item" th:href="@{/user}">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" onclick="logout()" href="#">Log out</a></li>
+                </ul>
             </div>
         </div>
     </div>

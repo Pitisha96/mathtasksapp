@@ -1,6 +1,5 @@
 let caretStart
 let caretEnd
-let mdVal
 let md = window.markdownit()
 
 $(document).ready(function (){
@@ -182,10 +181,3 @@ $('.edit').on('click',function (e){
 })
 
 $('#tags-input').on()
-
-
-function viewFromEditor(mdEditor,mdPreview){
-
-    mdPreview.empty()
-    mdPreview.html(md.render(mdEditor.val()))
-}

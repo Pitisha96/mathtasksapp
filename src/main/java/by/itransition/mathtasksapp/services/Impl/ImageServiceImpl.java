@@ -44,4 +44,9 @@ public class ImageServiceImpl implements ImageService {
         }
         return images;
     }
+
+    @Override
+    public List<Image> getAllByTask(Task task) {
+        return imageRepository.findAllByTask(task);
+    }
 }

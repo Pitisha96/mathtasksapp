@@ -22,16 +22,20 @@ public class TaskController {
     private final TaskService taskService;
     private final ImageService imageService;
     private final AnswerService answerService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
     public TaskController(ThemeService themeService,
                           TagService tagService, TaskService taskService,
-                          ImageService imageService, AnswerService answerService) {
+                          ImageService imageService, AnswerService answerService, UserService userService, RoleService roleService) {
         this.themeService = themeService;
         this.tagService = tagService;
         this.taskService = taskService;
         this.imageService = imageService;
         this.answerService = answerService;
+        this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/search")
@@ -41,9 +45,15 @@ public class TaskController {
         return "search_results";
     }
 
-    @GetMapping("/form_task")
-    public String showForm(Model model){
+    @GetMapping("/form_task/{task}")
+    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal,
+                           @PathVariable String task){
         model.addAttribute("themes",themeService.getAll());
+        model.addAttribute("username",principal.getAttributes().get("username"));
+        System.out.println(task);
+        /*model.addAttribute("action",task==null?"post":"put");
+        if(task!=null)
+            model.addAttribute("task",taskService.getById(task));*/
         return "form_task";
     }
 
@@ -75,8 +85,18 @@ public class TaskController {
     }
 
     @GetMapping("/task/{id}")
-    public String get(@PathVariable("id") Long id,Model model){
-        model.addAttribute(taskService.getById(id));
+    public String get(@PathVariable("id") Long id,Model model,@AuthenticationPrincipal OAuth2User principal){
+        Task task = taskService.getById(id);
+        if(principal!=null){
+            User user = userService.getById((Long) principal.getAttributes().get("id"));
+            if(taskService.findAllByOwner(user).contains(task)||
+                    user.getRoles().contains(roleService.getRoleById(2)))
+                return "redirect:../form_task/"+id;
+            model.addAttribute("solved",user.getSolvedTasks().contains(task));
+            model.addAttribute("username",principal.getAttributes().get("username"));
+        }
+        model.addAttribute("task",task);
+        model.addAttribute("images",imageService.getAllByTask(task));
         return "task";
     }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface ImageService {
     Image save(Image image);
     List<Image> saveImagesByMultipartFileArray(MultipartFile[] fileArray, Task task);
+    List<Image> getAllByTask(Task task);
 }

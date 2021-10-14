@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class Role implements GrantedAuthority{
 
     @Transient
     @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
-    private Set<User> users;
+    private List<User> users;
 
     @Override
     public String getAuthority() {

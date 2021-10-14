@@ -4,6 +4,7 @@ import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import by.itransition.mathtasksapp.repositories.TaskRepository;
 import by.itransition.mathtasksapp.services.TaskService;
+import by.itransition.mathtasksapp.services.UserService;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class TaskServiceImpl implements TaskService {
