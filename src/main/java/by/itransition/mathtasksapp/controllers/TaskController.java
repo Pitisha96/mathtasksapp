@@ -7,10 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -45,15 +42,24 @@ public class TaskController {
         return "search_results";
     }
 
-    @GetMapping("/form_task/{task}")
-    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal,
-                           @PathVariable String task){
+    @GetMapping("/add/task")
+    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal){
         model.addAttribute("themes",themeService.getAll());
         model.addAttribute("username",principal.getAttributes().get("username"));
-        System.out.println(task);
-        /*model.addAttribute("action",task==null?"post":"put");
-        if(task!=null)
-            model.addAttribute("task",taskService.getById(task));*/
+        model.addAttribute("action","create");
+        return "form_task";
+    }
+
+    @GetMapping("/update/task/{id}")
+    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal,
+                           @PathVariable Long id){
+        model.addAttribute("themes",themeService.getAll());
+        model.addAttribute("username",principal.getAttributes().get("username"));
+        model.addAttribute("action","update");
+        model.addAttribute("task",taskService.getById(id));
+        model.addAttribute("tags",taskService.getAllTagsByTaskId(id));
+        model.addAttribute("answers",taskService.getAllAnswersByTaskId(id));
+        model.addAttribute("taskImages",taskService.getAllImagesByTaskId(id));
         return "form_task";
     }
 
@@ -91,12 +97,43 @@ public class TaskController {
             User user = userService.getById((Long) principal.getAttributes().get("id"));
             if(taskService.findAllByOwner(user).contains(task)||
                     user.getRoles().contains(roleService.getRoleById(2)))
-                return "redirect:../form_task/"+id;
+                return "redirect:../update/task/"+id;
             model.addAttribute("solved",user.getSolvedTasks().contains(task));
             model.addAttribute("username",principal.getAttributes().get("username"));
         }
         model.addAttribute("task",task);
-        model.addAttribute("images",imageService.getAllByTask(task));
+        model.addAttribute("images",imageService.getAllByTaskId(task.getId()));
         return "task";
+    }
+
+    @PostMapping("/task/{id}")
+    public String update(@PathVariable Long id,
+                         @AuthenticationPrincipal OAuth2User principal,
+                         @RequestParam("theme") Long themeId,
+                         @RequestParam("name") String name,
+                         @RequestParam("content") String content,
+                         @RequestParam(value = "tags",required = false) String stringTags,
+                         @RequestParam(value = "file1",required = false)MultipartFile file1,
+                         @RequestParam(value = "file2",required = false)MultipartFile file2,
+                         @RequestParam(value = "file3",required = false)MultipartFile file3,
+                         @RequestParam("answer1") String answer1,
+                         @RequestParam(value = "answer2",required = false)String answer2,
+                         @RequestParam(value = "answer3",required = false)String answer3){
+        Task task = taskService.getById(id);
+        task.setName(name);
+        task.setContent(content);
+        task.setTheme(new Theme(themeId));
+        List<Tag> tags = task.getTags();//?
+        tags.addAll(tagService.saveTagsByTagString(stringTags));
+        task.setTags(tags);
+
+        task.setImages(imageService
+                .updateImagesByMultipartFileArray(
+                        new MultipartFile[]{file1,file2,file3},task));
+        task.setAnswers(answerService
+                .saveAllByAnswerStrings(
+                        new String[]{answer1,answer2,answer3},task));
+        taskService.save(task);
+        return "redirect:/user";
     }
 }

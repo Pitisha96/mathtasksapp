@@ -17,12 +17,16 @@ public class Image{
 
     private String url;
 
+    @Column(name = "public_id")
+    private String publicId;
+
     @ManyToOne
     @JoinColumn(name = "task_id")
     private Task task;
 
-    public Image(String url,Task task){
+    public Image(String url,String publicId,Task task){
         this.url=url;
         this.task=task;
+        this.publicId=publicId;
     }
 }

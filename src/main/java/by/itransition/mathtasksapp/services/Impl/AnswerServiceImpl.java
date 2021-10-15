@@ -30,7 +30,7 @@ public class AnswerServiceImpl implements AnswerService {
     public List<Answer> saveAllByAnswerStrings(String[] answers, Task task) {
         List<Answer> result =new LinkedList<>();
         for(String answer:answers){
-            if(answer!=null)
+            if(answer!=null&&!answer.isEmpty())
                 result.add(save(new Answer(answer,task)));
         }
         return result;
@@ -46,5 +46,10 @@ public class AnswerServiceImpl implements AnswerService {
     public boolean containsAnswer(Task task, String answer) {
         return getAllAnswerDtoByTask(task).stream()
                 .map(AnswerDto::getContent).collect(Collectors.toList()).contains(answer);
+    }
+
+    @Override
+    public List<Answer> getAllByTaskId(Long id) {
+        return answerRepository.findAllByTask(new Task(id));
     }
 }

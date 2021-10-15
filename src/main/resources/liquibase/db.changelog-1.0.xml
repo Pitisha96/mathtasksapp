@@ -272,6 +272,7 @@
             </column>
             <column name="url" type="VARCHAR"/>
             <column name="task_id" type="BIGINT"/>
+            <column name="public_id" type="VARCHAR"/>
         </createTable>
     </changeSet>
     <changeSet id="1.0.36" author="ilya.petrovski">

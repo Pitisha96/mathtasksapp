@@ -20,7 +20,6 @@ function handleElem(i,e){
         let dt = e.dataTransfer
         let files=dt.files
         inputFile.get(i).files=files
-        this.classList.add('border-0')
         previewFile(files[0],this)
     })
 }
@@ -47,6 +46,7 @@ function unhighlight(e) {
 }
 
 function previewFile(file,dropArea){
+    dropArea.classList.add('border-0')
     let reader=new FileReader()
     reader.readAsDataURL(file)
     reader.onloadend=function (){

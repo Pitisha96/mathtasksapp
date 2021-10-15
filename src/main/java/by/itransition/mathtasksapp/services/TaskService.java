@@ -1,7 +1,6 @@
 package by.itransition.mathtasksapp.services;
 
-import by.itransition.mathtasksapp.models.Task;
-import by.itransition.mathtasksapp.models.User;
+import by.itransition.mathtasksapp.models.*;
 
 import java.util.List;
 
@@ -13,4 +12,8 @@ public interface TaskService {
     List<Task> getLastPublished(int limit);
     List<Task> getFirstRating(int limit);
     List<Task> searchTasks(String searchLine);
+    List<Tag> getAllTagsByTaskId(Long id);
+    List<Answer> getAllAnswersByTaskId(Long id);
+    List<Image> getAllImagesByTaskId(Long id);
+
 }

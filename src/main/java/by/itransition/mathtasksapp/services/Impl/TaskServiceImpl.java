@@ -1,10 +1,10 @@
 package by.itransition.mathtasksapp.services.Impl;
 
-import by.itransition.mathtasksapp.models.Task;
-import by.itransition.mathtasksapp.models.User;
+import by.itransition.mathtasksapp.models.*;
 import by.itransition.mathtasksapp.repositories.TaskRepository;
+import by.itransition.mathtasksapp.services.AnswerService;
+import by.itransition.mathtasksapp.services.ImageService;
 import by.itransition.mathtasksapp.services.TaskService;
-import by.itransition.mathtasksapp.services.UserService;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
@@ -13,17 +13,20 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final EntityManager entityManager;
+    private final AnswerService answerService;
+    private final ImageService imageService;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, EntityManager entityManager) {
+    public TaskServiceImpl(TaskRepository taskRepository, EntityManager entityManager, AnswerService answerService, ImageService imageService) {
         this.taskRepository = taskRepository;
         this.entityManager = entityManager;
+        this.answerService = answerService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -65,5 +68,20 @@ public class TaskServiceImpl implements TaskService {
                     .matching(searchLine))
                 .fetchAll();
         return result.hits();
+    }
+
+    @Override
+    public List<Tag> getAllTagsByTaskId(Long id) {
+        return taskRepository.getById(id).getTags();
+    }
+
+    @Override
+    public List<Answer> getAllAnswersByTaskId(Long id) {
+        return answerService.getAllByTaskId(id);
+    }
+
+    @Override
+    public List<Image> getAllImagesByTaskId(Long id) {
+        return imageService.getAllByTaskId(id);
     }
 }

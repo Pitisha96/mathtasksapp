@@ -36,9 +36,9 @@ public class ImageServiceImpl implements ImageService {
         List<Image> images=new LinkedList<>();
         for(MultipartFile file:fileArray){
             if(!file.isEmpty()){
+                Map cloudImage=cloudinaryService.upload(TmpFilesCreator.convertMultipartFileToFile(file));
                 images.add(
-                        save(new Image(cloudinaryService
-                                .upload(TmpFilesCreator.convertMultipartFileToFile(file)), task))
+                        save(new Image((String)cloudImage.get("url"),(String)cloudImage.get("public_id") ,task))
                 );
             }
         }
@@ -46,7 +46,35 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Image> getAllByTask(Task task) {
-        return imageRepository.findAllByTask(task);
+    public List<Image> getAllByTaskId(Long id) {
+        return imageRepository.findAllByTask(new Task(id));
+    }
+
+    @SneakyThrows
+    @Override
+    public List<Image> updateImagesByMultipartFileArray(MultipartFile[] fileArray, Task task) {
+        List<Image> result = new LinkedList<>();
+        List<Image> images = getAllByTaskId(task.getId());
+        for(int i=0;i<fileArray.length;i++){
+            if(!fileArray[i].isEmpty()){
+                Map cloudImage = cloudinaryService
+                        .upload(TmpFilesCreator.convertMultipartFileToFile(fileArray[i]));
+                result.add(
+                        save(new Image((String)cloudImage.get("url"),(String)cloudImage.get("public_id"),task))
+                );
+                if(images.size()>=i+1)
+                    deleteImage(images.get(i));
+            }else if(images.size()>=i+1){
+                result.add(images.get(i));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public boolean deleteImage(Image image) {
+        cloudinaryService.destroy(image.getPublicId());
+        imageRepository.delete(image);
+        return false;
     }
 }

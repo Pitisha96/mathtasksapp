@@ -14,5 +14,4 @@ public interface TagRepository extends JpaRepository<Tag,Long> {
     @Query(value = "select * from tags order by id desc limit ?1",nativeQuery = true)
     List<Tag> findLastTagsByLimit(int limit);
     List<Tag> findAllByNameContaining(String name);
-
 }

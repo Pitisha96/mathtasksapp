@@ -8,7 +8,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Indexed
@@ -34,12 +33,12 @@ public class Task {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "task_tags",
             joinColumns = @JoinColumn(name = "task_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id",referencedColumnName = "id")
     )
-    private Set<Tag> tags;
+    private List<Tag> tags;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
@@ -62,7 +61,7 @@ public class Task {
     }
 
     public Task(String name, String content, Date published, Theme theme,
-                Set<Tag> tags, User owner) {
+                List<Tag> tags, User owner) {
         this.name = name;
         this.content = content;
         this.published = published;

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,5 +26,5 @@ public class Tag {
 
     @Transient
     @ManyToMany(mappedBy = "tags",fetch = FetchType.LAZY)
-    private Set<Task> tasks;
+    private List<Task> tasks;
 }

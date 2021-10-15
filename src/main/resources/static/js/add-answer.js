@@ -1,16 +1,16 @@
-let numAnswer=1;
+let numAnswer=$('.answers').length
 $('#addAnswer').click(function (e){
     numAnswer+=1
     if(numAnswer<=3){
         $('.answer-box')
             .append($($('<div>',{
-                class: 'row'
+                class: 'row my-lg-2'
             }))
             .append($($('<div>',{
-                class:'col my-lg-2'
+                class:'col'
             }))
             .append($($('<textarea>',{
-                class:'form-control border-dark',
+                class:'form-control border-dark answers',
                 rows:'3',
                 name:'answer'+numAnswer,
                 placeholder:'Answer',

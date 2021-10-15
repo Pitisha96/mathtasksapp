@@ -15,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.2.0/markdown-it.min.js"
             integrity="sha512-cTQeM/op796Fp1ZUxfech8gSMLT/HvrXMkRGdGZGQnbwuq/obG0UtcL04eByVa99qJik7WlnlQOr5/Fw5B36aw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <title>Add task</title>
+    <title th:text="${action.equals('create')}?'Add task':'Update task'">Add task</title>
 </head>
 <body>
 <style>
@@ -36,7 +36,7 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
             <form th:method="get" th:action="@{/search}" class="d-flex my-2">
                 <input class="form-control me-2" type="search" placeholder="Search" name="search"
-                       aria-label="Search">
+                       aria-label="Search" autocomplete="off">
                 <input class="btn btn-outline-dark" type="submit" value="Search"/>
             </form>
             <div sec:authorize="!isAuthenticated">
@@ -56,7 +56,9 @@
         </div>
     </div>
 </nav>
-<form th:method="post" th:action="@{/task}" enctype="multipart/form-data" id="add_task">
+<form th:method="post"
+      th:action="@{/task/{id}(id=${action.equals('update')?task.id:''})}"
+      enctype="multipart/form-data" id="add_task">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-6 my-lg-0">
@@ -64,14 +66,15 @@
                     <div class="col">
                         <select class="form-select border-dark" form="add_task" id="theme" name="theme">
                             <option th:each="theme:${themes}" th:text="${theme.name}"
-                                    th:value="${theme.id}">option</option>
+                                    th:value="${theme.id}"
+                                    th:selected="${action.equals('update')?theme.id==task.theme.id:false}">option</option>
                         </select>
                     </div>
                 </div>
                 <div class="row my-lg-2">
                     <div class="col">
                         <input class="form-control border-dark" type="text" autocomplete="off"
-                               name="name" placeholder="Task name">
+                               name="name" placeholder="Task name" th:value="${action.equals('update')?task.name:''}">
                     </div>
                 </div>
                 <div class="row my-lg-2">
@@ -85,13 +88,29 @@
                         <input type="button" class="btn btn-dark" id="btn-tag" value="+">
                     </div>
                 </div>
-                <div class="row my-lg-2 px-lg-2" id="tags-box"></div>
+                <div class="row my-lg-2 px-lg-2" id="tags-box">
+                    <div class="btn btn-dark btn-sm col-lg-auto mx-lg-1"
+                    th:each="tag:${tags}" th:text="${tag.name}"></div>
+                </div>
                 <div class="row my-lg-2">
                     <div class="col answer-box">
                         <div class="row">
                             <div class="col">
-                                <textarea class="form-control border-dark" rows="3"
+                                <textarea class="form-control border-dark answers" rows="3"
+                                          th:text="${action.equals('update')?answers.get(0).content:''}"
                                           name="answer1" placeholder="Answer" style="resize: none"></textarea>
+                            </div>
+                        </div>
+                        <div class="row my-lg-2" th:if="${action.equals('update')&&answers.size()>=2}">
+                            <div class="col">
+                                <textarea class="form-control border-dark answers" rows="3" th:text="${answers.get(1).content}"
+                                          name="answer2" placeholder="Answer" style="resize: none"></textarea>
+                            </div>
+                        </div>
+                        <div class="row my-lg-2" th:if="${action.equals('update')&&answers.size()==3}">
+                            <div class="col">
+                                <textarea class="form-control border-dark answers" rows="3" th:text="${answers.get(2).content}"
+                                          name="answer3" placeholder="Answer" style="resize: none"></textarea>
                             </div>
                         </div>
                     </div>
@@ -105,7 +124,11 @@
                     <div class="col-lg-3">
                         <div class="row">
                             <div class="col">
-                                <div class="w-100 drop-area"></div>
+                                <div th:class="'w-100 drop-area'+${(action.equals('update')&&taskImages.size()>=1)?' border-0':''}">
+                                    <img class="w-100 h-100 rounded"
+                                         th:if="${action.equals('update')&&taskImages.size()>=1}"
+                                         th:src="${taskImages.get(0).url}"/>
+                                </div>
                             </div>
                         </div>
                         <div class="row justify-content-end">
@@ -118,7 +141,11 @@
                     <div class="col-lg-3">
                         <div class="row">
                             <div class="col">
-                                <div class="w-100 drop-area"></div>
+                                <div th:class="'w-100 drop-area'+${(action.equals('update')&&taskImages.size()>=2)?' border-0':''}">
+                                    <img class="w-100 h-100 rounded"
+                                         th:if="${action.equals('update')&&taskImages.size()>=2}"
+                                         th:src="${taskImages.get(1).url}"/>
+                                </div>
                             </div>
                         </div>
                         <div class="row justify-content-end">
@@ -131,7 +158,11 @@
                     <div class="col-lg-3">
                         <div class="row">
                             <div class="col">
-                                <div class="w-100 drop-area"></div>
+                                <div th:class="'w-100 drop-area'+${(action.equals('update')&&taskImages.size()==3)?' border-0':''}">
+                                    <img class="w-100 h-100 rounded"
+                                         th:if="${action.equals('update')&&taskImages.size()==3}"
+                                         th:src="${taskImages.get(2).url}"/>
+                                </div>
                             </div>
                         </div>
                         <div class="row justify-content-end">
@@ -193,7 +224,8 @@
                 <div class="row">
                     <div class="col">
                         <textarea id="md-editor" class="form-control border-dark" rows="18" name="content"
-                                  placeholder="Content" style="resize: none"></textarea>
+                                  placeholder="Content" style="resize: none"
+                                  th:text="${action.equals('update')?task.content:''}"></textarea>
                         <div class="md-preview border border-dark rounded" style="overflow: auto"></div>
                     </div>
                 </div>
@@ -202,7 +234,7 @@
         <hr>
         <div class="row justify-content-end">
             <div class="col mb-lg-3">
-               <input class="btn btn-dark w-100" type="submit" value="add"/>
+               <input class="btn btn-dark w-100" type="submit" th:value="${action}"/>
             </div>
         </div>
     </div>

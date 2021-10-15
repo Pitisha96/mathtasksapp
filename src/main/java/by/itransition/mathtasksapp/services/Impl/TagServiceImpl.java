@@ -3,15 +3,13 @@ package by.itransition.mathtasksapp.services.Impl;
 import by.itransition.mathtasksapp.dto.TagDto;
 import by.itransition.mathtasksapp.mappers.TagMapper;
 import by.itransition.mathtasksapp.models.Tag;
+import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.repositories.TagRepository;
 import by.itransition.mathtasksapp.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,15 +48,15 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Set<Tag> saveTagsByTagString(String stringTags) {
-        Set<Tag> tags = new HashSet<>();
-        for (String tagName : stringTags.split(" ")) {
-            if(!tagName.equals(" ")){
-                tags.add(save(new Tag(tagName)));
+    public List<Tag> saveTagsByTagString(String stringTags) {
+        List<Tag> tags = new LinkedList<>();
+        if(!stringTags.isEmpty()){
+            for (String tagName : stringTags.split(" ")) {
+                if(!tagName.equals(" ")){
+                    tags.add(save(new Tag(tagName)));
+                }
             }
         }
         return tags;
     }
-
-
 }
