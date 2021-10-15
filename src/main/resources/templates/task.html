@@ -15,7 +15,7 @@
             integrity="sha512-cTQeM/op796Fp1ZUxfech8gSMLT/HvrXMkRGdGZGQnbwuq/obG0UtcL04eByVa99qJik7WlnlQOr5/Fw5B36aw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="/css/task.css">
-    <title>Task</title>
+    <title th:text="${task.name}"></title>
 </head>
 <body>
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,35 +61,35 @@
     </div>
 
     <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: orangered">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">MathTasks</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-            <form th:method="get" th:action="@{/search}" class="d-flex my-2">
-                <input class="form-control me-2" type="search" placeholder="Search" name="search"
-                       aria-label="Search">
-                <input class="btn btn-outline-dark" type="submit" value="Search"/>
-            </form>
-            <div sec:authorize="!isAuthenticated">
-                <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-                    Log in
-                </button>
-            </div>
-            <div sec:authorize="isAuthenticated" class="nav-item dropdown">
-                <a class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
-                <ul class="dropdown-menu">
-                    <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin}">Profile</a></li>
-                    <li sec:authorize="hasRole('USER')"><a class="dropdown-item" th:href="@{/user}">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" onclick="logout()" href="#">Log out</a></li>
-                </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">MathTasks</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                <form th:method="get" th:action="@{/search}" class="d-flex my-2">
+                    <input class="form-control me-2" type="search" placeholder="Search" name="search"
+                           aria-label="Search" autocomplete="off">
+                    <input class="btn btn-outline-dark" type="submit" value="Search"/>
+                </form>
+                <div sec:authorize="!isAuthenticated">
+                    <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Log in
+                    </button>
+                </div>
+                <div sec:authorize="isAuthenticated" class="nav-item dropdown">
+                    <a class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                    <ul class="dropdown-menu">
+                        <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" th:href="@{/admin}">Profile</a></li>
+                        <li sec:authorize="hasRole('USER')"><a class="dropdown-item" th:href="@{/user}">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" onclick="logout()" href="#">Log out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
     <div class="container-fluid">
         <div class="row bg-light">
             <div class="col">
