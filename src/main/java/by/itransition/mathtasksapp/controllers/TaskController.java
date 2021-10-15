@@ -38,7 +38,6 @@ public class TaskController {
     @GetMapping("/search")
     public String search(@RequestParam("search") String searchLine,Model model){
         model.addAttribute("tasks",taskService.searchTasks(searchLine));
-        System.out.println(searchLine);
         return "search_results";
     }
 
