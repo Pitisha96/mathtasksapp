@@ -37,6 +37,24 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
+    public List<Answer> updateAllByAnswerStrings(String[] answers, Task task) {
+        List<Answer> taskAnswers=answerRepository.findAllByTask(task);
+        for(int i=0;i<answers.length;i++){
+            if(answers[i]!=null&&!answers[i].isEmpty()){
+                if(taskAnswers.size()>=i+1){
+                    Answer current = taskAnswers.get(i);
+                    current.setContent(answers[i]);
+                    answerRepository.save(current);
+                }else{
+                    Answer answer=new Answer(answers[i],task);
+                    taskAnswers.add(answerRepository.save(answer));
+                }
+            }
+        }
+        return taskAnswers;
+    }
+
+    @Override
     public List<AnswerDto> getAllAnswerDtoByTask(Task task) {
         return answerRepository.findAllByTask(task).stream()
                 .map(AnswerMapper.INSTANCE::answerToAnswerDto).collect(Collectors.toList());

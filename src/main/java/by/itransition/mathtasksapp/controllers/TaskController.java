@@ -130,7 +130,7 @@ public class TaskController {
                 .updateImagesByMultipartFileArray(
                         new MultipartFile[]{file1,file2,file3},task));
         task.setAnswers(answerService
-                .saveAllByAnswerStrings(
+                .updateAllByAnswerStrings(
                         new String[]{answer1,answer2,answer3},task));
         taskService.save(task);
         return "redirect:/user";
