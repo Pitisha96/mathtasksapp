@@ -5,3 +5,7 @@
     cursor: pointer;
     filter: brightness(40%);
 }
+
+.unvoted:hover{
+    cursor: pointer;
+}

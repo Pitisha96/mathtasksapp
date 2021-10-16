@@ -9,15 +9,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/task.css">
+    <script src="https://kit.fontawesome.com/9002068d0d.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/12.2.0/markdown-it.min.js"
             integrity="sha512-cTQeM/op796Fp1ZUxfech8gSMLT/HvrXMkRGdGZGQnbwuq/obG0UtcL04eByVa99qJik7WlnlQOr5/Fw5B36aw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="/css/task.css">
     <title th:text="${task.name}"></title>
 </head>
 <body>
+<style>
+    .checked{
+        color: orangered;
+    }
+</style>
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -47,11 +53,11 @@
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-light">
                     <div class="container-fluid">
                         <div class="row justify-content-center">
-                            <div class="col-lg-auto">
-                                <img id="image-show" src="">
+                            <div class="col-lg-10">
+                                <img id="image-show" src="" class="w-100">
                             </div>
                         </div>
                     </div>
@@ -91,10 +97,19 @@
         </div>
     </nav>
     <div class="container-fluid">
-        <div class="row bg-light">
-            <div class="col">
+        <div class="row bg-light align-items-center">
+            <div class="col-lg-10">
                 <h3 th:text="${task.name}"></h3>
                 <h6 th:text="${task.theme.name}"></h6>
+            </div>
+            <div class="col-lg-2" sec:authorize="isAuthenticated()">
+                <div class="unvoted rating">
+                    <span class="fas fa-star" th:classappend="${task.rating>=0.5}?'checked':''"></span>
+                    <span class="fas fa-star" th:classappend="${task.rating>=1.5}?'checked':''"></span>
+                    <span class="fas fa-star" th:classappend="${task.rating>=2.5}?'checked':''"></span>
+                    <span class="fas fa-star" th:classappend="${task.rating>=3.5}?'checked':''"></span>
+                    <span class="fas fa-star" th:classappend="${task.rating>=4.5}?'checked':''"></span>
+                </div>
             </div>
         </div>
         <div class="row">
