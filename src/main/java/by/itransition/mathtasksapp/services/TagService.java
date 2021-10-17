@@ -11,4 +11,5 @@ public interface TagService {
     List<TagDto> getFirstDto(int limit);
     List<TagDto> getAllByNameContains(String name);
     List<Tag> saveTagsByTagString(String tagString);
+    Tag findByName(String name);
 }

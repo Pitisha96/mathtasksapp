@@ -15,5 +15,9 @@ public interface TaskService {
     List<Tag> getAllTagsByTaskId(Long id);
     List<Answer> getAllAnswersByTaskId(Long id);
     List<Image> getAllImagesByTaskId(Long id);
+    Double getRatingByTask(Task task);
+    Task addRatingByTask(Rating rating,Task task);
+    List<Task> findAllByTagName(String tagName);
+
 
 }

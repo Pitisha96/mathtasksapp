@@ -304,4 +304,49 @@
                 referencedTableName="tasks"
                 referencedColumnNames="id"/>
     </changeSet>
+    <changeSet id="1.0.39" author="ilya.petrovski">
+        <createTable tableName="user_voted_tasks">
+            <column name="user_id" type="BIGINT"/>
+            <column name="task_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.40" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="user_voted_tasks"
+                baseColumnNames="user_id"
+                constraintName="fk_users_users_voted_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="users"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.41" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="user_voted_tasks"
+                baseColumnNames="task_id"
+                constraintName="fk_user_voted_tasks_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="1.0.42" author="ilya.petrovski">
+        <createTable tableName="ratings">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="value" type="DOUBLE"/>
+            <column name="task_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.43" author="ilya.petrovski">
+        <addForeignKeyConstraint
+                baseTableName="ratings"
+                baseColumnNames="task_id"
+                constraintName="fk_ratings_tasks"
+                onDelete="CASCADE"
+                onUpdate="RESTRICT"
+                referencedTableName="tasks"
+                referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

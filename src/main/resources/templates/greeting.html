@@ -106,7 +106,8 @@
     <div class="row mt-1">
         <h5>Последние использованные теги:</h5>
         <div class="col-auto col-lg-auto my-2" th:each="tag:${lastTags}">
-            <a class="btn btn-dark btn-sm" href="#" th:text="${tag.name}+' '" style="width: 100%"></a>
+            <a class="btn btn-dark btn-sm" th:href="@{tag_task?search={tagName}(tagName=${tag.name})}"
+               th:text="${tag.name}+' '" style="width: 100%"></a>
         </div>
     </div>
 </div>

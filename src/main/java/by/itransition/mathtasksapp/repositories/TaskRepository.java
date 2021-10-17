@@ -12,8 +12,7 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task,Long> {
     Long countByOwner(User user);
-    List<Task> findAllByOwner(User owner);
-    Optional<Task> findByName(String name);
+    List<Task> findAllByOwnerOrderByIdAsc(User owner);
     @Query(value = "select * from tasks order by published desc limit ?1",nativeQuery = true)
     List<Task> findLastPublished(int limit);
     @Query(value = "select * from tasks order by rating desc limit ?1",nativeQuery = true)

@@ -14,5 +14,5 @@ public interface UserService{
     Long countSolved(User user);
     User getById(long id);
     void addSolved(Long idUser, Task task);
-    List<Role> getRolesByUser(User user);
+    void addVoted(Long idUser,Task task);
 }

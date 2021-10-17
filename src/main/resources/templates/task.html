@@ -99,11 +99,11 @@
     <div class="container-fluid">
         <div class="row bg-light align-items-center">
             <div class="col-lg-10">
-                <h3 th:text="${task.name}"></h3>
-                <h6 th:text="${task.theme.name}"></h6>
+                <h3 class="text-truncate" th:text="${task.name}"></h3>
+                <h6 class="text-truncate" th:text="${task.theme.name}"></h6>
             </div>
             <div class="col-lg-2" sec:authorize="isAuthenticated()">
-                <div class="unvoted rating">
+                <div class="rating" th:classappend="${voted?'':'unvoted'}">
                     <span class="fas fa-star" th:classappend="${task.rating>=0.5}?'checked':''"></span>
                     <span class="fas fa-star" th:classappend="${task.rating>=1.5}?'checked':''"></span>
                     <span class="fas fa-star" th:classappend="${task.rating>=2.5}?'checked':''"></span>
@@ -140,7 +140,12 @@
                     </div>
                 </div>
                 <div class="row mt-lg-2">
-                    <div class="col" id="answer-alert"></div>
+                    <div class="col" id="answer-alert">
+                        <div class="alert alert-info alert-dismissible" role="alert" th:if="${solved}">
+                            OK. Try the next task
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-lg-2 justify-content-end" sec:authorize="isAuthenticated()" th:if="${!solved}">
                     <div class="col-lg-3">
@@ -156,7 +161,8 @@
         </div>
         <div class="row">
             <div class="col-auto col-lg-auto my-2" th:each="tag:${task.tags}">
-                <p class="btn btn-dark btn-sm w-100" th:text="${tag.name}"></p>
+                <a class="btn btn-dark btn-sm w-100" th:text="${tag.name}"
+                   th:href="@{../tag_task?search={tagName}(tagName=${tag.name})}"></a>
             </div>
         </div>
     </div>

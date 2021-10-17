@@ -95,7 +95,11 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     }
 
     @Override
-    public List<Role> getRolesByUser(User user) {
-        return userRepository.getById(user.getId()).getRoles();
+    public void addVoted(Long idUser, Task task) {
+        User user = userRepository.getById(idUser);
+        List<Task> votedTasks = user.getVotedTasks();
+        votedTasks.add(task);
+        user.setVotedTasks(votedTasks);
+        userRepository.save(user);
     }
 }

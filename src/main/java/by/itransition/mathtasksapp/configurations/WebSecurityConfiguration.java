@@ -22,8 +22,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/error","/","/resources/**").permitAll()
-                    .antMatchers("/css/**","/img/**","/js/**","/task/**","/search").permitAll()
-                    .antMatchers("/add/task/","/update/task/**").hasAnyRole("ADMIN","USER")
+                    .antMatchers("/css/**","/img/**","/js/**","/task/**",
+                            "/search","/tag_task").permitAll()
+                    //.antMatchers("/add/task/","/update/task/**").hasAnyRole("ADMIN","USER")
                     .antMatchers("/admin").hasRole("ADMIN")
                     .antMatchers("/user").hasRole("USER")
                     .anyRequest().authenticated()

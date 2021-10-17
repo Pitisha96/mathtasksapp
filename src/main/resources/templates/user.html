@@ -3,9 +3,14 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" th:content="${_csrf.getToken()}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+          crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/9002068d0d.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>User</title>
 </head>
 <body>
@@ -71,25 +76,30 @@
         <a class="col-lg-2 py-2 btn btn-dark my-2" th:href="@{/add/task}">Add task</a>
     </div>
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr class="table-dark">
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">theme</th>
-                <th scope="col">published</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="task:${tasks}"
-                th:onclick="'window.location.href=\'/task/' + ${task.id} + '\''">
-                <th scope="row" th:text="${task.id}">id</th>
-                <td th:text="${task.name}">name</td>
-                <td th:text="${task.theme.name}">theme</td>
-                <td th:text="${task.published}">published</td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="table-dark">
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">theme</th>
+                    <th scope="col">published</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="task:${tasks}">
+                    <th scope="row" th:text="${task.id}">id</th>
+                    <td th:text="${task.name}">name</td>
+                    <td th:text="${task.theme.name}">theme</td>
+                    <td th:text="${task.published}">published</td>
+                    <td><a class="fas fa-pen" th:href="@{task/{id}(id=${task.id})}"></a></td>
+                    <td><a class="fas fa-trash-alt" th:href="@{delete/{id}(id=${task.id})}"></a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="/js/logout.js"></script>

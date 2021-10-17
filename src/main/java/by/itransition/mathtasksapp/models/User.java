@@ -39,6 +39,13 @@ public class User implements OAuth2User {
     )
     private List<Task> solvedTasks;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_voted_tasks",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id")
+    )
+    List<Task> votedTasks;
+
     public User(long id) {
         this.id = id;
     }

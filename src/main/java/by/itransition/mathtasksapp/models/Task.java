@@ -49,12 +49,20 @@ public class Task {
     private List<User> users;
 
     @Transient
+    @ManyToMany(mappedBy = "votedTasks",fetch = FetchType.LAZY)
+    private List<User> votedUsers;
+
+    @Transient
     @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
     private List<Image> images;
 
     @Transient
     @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
     private List<Answer> answers;
+
+    @Transient
+    @OneToMany(mappedBy = "task")
+    private List<Rating> ratings;
 
     public Task(Long id){
         this.id=id;

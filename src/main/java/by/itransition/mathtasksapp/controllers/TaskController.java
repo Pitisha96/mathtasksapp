@@ -36,8 +36,20 @@ public class TaskController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("search") String searchLine,Model model){
+    public String search(@RequestParam("search") String searchLine,
+                         Model model,@AuthenticationPrincipal OAuth2User principal){
         model.addAttribute("tasks",taskService.searchTasks(searchLine));
+        if(principal!=null)
+            model.addAttribute("username",principal.getAttributes().get("username"));
+        return "search_results";
+    }
+
+    @GetMapping("/tag_task")
+    public String tags(@RequestParam("search") String tagName,
+                       Model model,@AuthenticationPrincipal OAuth2User principal){
+        model.addAttribute("tasks",taskService.findAllByTagName(tagName));
+        if(principal!=null)
+            model.addAttribute("username",principal.getAttributes().get("username"));
         return "search_results";
     }
 
@@ -99,6 +111,7 @@ public class TaskController {
                 return "redirect:../update/task/"+id;
             model.addAttribute("solved",user.getSolvedTasks().contains(task));
             model.addAttribute("username",principal.getAttributes().get("username"));
+            model.addAttribute("voted",user.getVotedTasks().contains(task));
         }
         model.addAttribute("task",task);
         model.addAttribute("images",imageService.getAllByTaskId(task.getId()));
