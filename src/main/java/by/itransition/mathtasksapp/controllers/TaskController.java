@@ -148,4 +148,8 @@ public class TaskController {
         taskService.save(task);
         return "redirect:/user";
     }
+
+    @PostMapping("/delete"){
+        ghbdtn
+    }
 }
