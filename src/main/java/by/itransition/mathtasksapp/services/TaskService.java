@@ -18,6 +18,5 @@ public interface TaskService {
     Double getRatingByTask(Task task);
     Task addRatingByTask(Rating rating,Task task);
     List<Task> findAllByTagName(String tagName);
-
-
+    void deleteTaskById(Long id);
 }

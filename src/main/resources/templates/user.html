@@ -18,6 +18,9 @@
     th:hover{
         cursor:pointer;
     }
+    .fa-trash-alt:hover{
+        cursor:pointer;
+    }
 </style>
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -105,13 +108,14 @@
                     <td th:text="${task.theme.name}">theme</td>
                     <td th:text="${task.published}">published</td>
                     <td><a class="fas fa-pen" th:href="@{task/{id}(id=${task.id})}"></a></td>
-                    <td><a class="fas fa-trash-alt" th:href="@{delete/{id}(id=${task.id})}"></a></td>
+                    <td><a class="fas fa-trash-alt" href="#" th:onclick="'deleteTask('+${task.id}+',this)'"></a></td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/delete-task.js"></script>
 <script type="text/javascript" src="/js/sort-table.js"></script>
 <script type="text/javascript" src="/js/logout.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

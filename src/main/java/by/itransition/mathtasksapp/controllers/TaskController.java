@@ -149,7 +149,9 @@ public class TaskController {
         return "redirect:/user";
     }
 
-    @PostMapping("/delete"){
-        ghbdtn
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id") Long id){
+        taskService.deleteTaskById(id);
+        return "/user";
     }
 }
