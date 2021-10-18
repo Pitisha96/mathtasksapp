@@ -106,7 +106,7 @@
                     <th scope="row" th:text="${task.id}">id</th>
                     <td th:text="${task.name}">name</td>
                     <td th:text="${task.theme.name}">theme</td>
-                    <td th:text="${task.published}">published</td>
+                    <td th:text="${task.getFormatDate()}">published</td>
                     <td><a class="fas fa-pen" th:href="@{~/update/task/{id}(id=${task.id})}"></a></td>
                     <td><a class="fas fa-trash-alt" href="#" th:onclick="'deleteTask('+${task.id}+',this)'"></a></td>
                 </tr>

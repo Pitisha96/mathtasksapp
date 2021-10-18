@@ -6,6 +6,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -76,5 +77,10 @@ public class Task {
         this.theme = theme;
         this.tags = tags;
         this.owner = owner;
+    }
+
+    public String getFormatDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+        return dateFormat.format(published);
     }
 }
