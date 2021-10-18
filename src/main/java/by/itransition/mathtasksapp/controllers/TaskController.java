@@ -54,16 +54,18 @@ public class TaskController {
     }
 
     @GetMapping("/add/task")
-    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal){
+    public String showFormAdd(Model model,@AuthenticationPrincipal OAuth2User principal,
+                           @RequestParam(value = "id_user",required = false) Long id){
         model.addAttribute("themes",themeService.getAll());
         model.addAttribute("username",principal.getAttributes().get("username"));
         model.addAttribute("action","create");
+        model.addAttribute("userId",id!=null?id:principal.getAttributes().get("id"));
         return "form_task";
     }
 
     @GetMapping("/update/task/{id}")
-    public String showForm(Model model,@AuthenticationPrincipal OAuth2User principal,
-                           @PathVariable Long id){
+    public String showFormUpdate(Model model,@AuthenticationPrincipal OAuth2User principal,
+                           @PathVariable("id") Long id){
         model.addAttribute("themes",themeService.getAll());
         model.addAttribute("username",principal.getAttributes().get("username"));
         model.addAttribute("action","update");
@@ -71,11 +73,13 @@ public class TaskController {
         model.addAttribute("tags",taskService.getAllTagsByTaskId(id));
         model.addAttribute("answers",taskService.getAllAnswersByTaskId(id));
         model.addAttribute("taskImages",taskService.getAllImagesByTaskId(id));
+        model.addAttribute("userId",id!=null?id:principal.getAttributes().get("id"));
         return "form_task";
     }
 
     @PostMapping("/task")
     public String add(@AuthenticationPrincipal OAuth2User principal,
+                      @RequestParam("user_id") Long id,
                       @RequestParam("theme") Long themeId,
                       @RequestParam("name") String name,
                       @RequestParam("content") String content,
@@ -89,7 +93,7 @@ public class TaskController {
         Task task = taskService.save(
                 new Task(name, content, new Date(), new Theme(themeId),
                         tagService.saveTagsByTagString(stringTags),
-                        new User((Long) principal.getAttributes().get("id"))
+                        new User(id)
                         ));
         task.setImages(imageService
                 .saveImagesByMultipartFileArray(
@@ -98,6 +102,10 @@ public class TaskController {
                 .saveAllByAnswerStrings(
                         new String[]{answer1,answer2,answer3},task));
         taskService.save(task);
+        if(userService.getById((Long) principal.getAttributes().get("id"))
+                .getRoles().contains(roleService.getRoleById(2))){
+            return "redirect:/user/"+id;
+        }
         return "redirect:/user";
     }
 
@@ -106,10 +114,9 @@ public class TaskController {
         Task task = taskService.getById(id);
         if(principal!=null){
             User user = userService.getById((Long) principal.getAttributes().get("id"));
-            if(taskService.findAllByOwner(user).contains(task)||
-                    user.getRoles().contains(roleService.getRoleById(2)))
-                return "redirect:../update/task/"+id;
             model.addAttribute("solved",user.getSolvedTasks().contains(task));
+            model.addAttribute("owner",taskService.findAllByOwner(user).contains(task));
+            model.addAttribute("admin",user.getRoles().contains(roleService.getRoleById(2L)));
             model.addAttribute("username",principal.getAttributes().get("username"));
             model.addAttribute("voted",user.getVotedTasks().contains(task));
         }
@@ -119,8 +126,8 @@ public class TaskController {
     }
 
     @PostMapping("/task/{id}")
-    public String update(@PathVariable Long id,
-                         @AuthenticationPrincipal OAuth2User principal,
+    public String update(@AuthenticationPrincipal OAuth2User principal,
+                         @PathVariable Long id,
                          @RequestParam("theme") Long themeId,
                          @RequestParam("name") String name,
                          @RequestParam("content") String content,
@@ -146,6 +153,10 @@ public class TaskController {
                 .updateAllByAnswerStrings(
                         new String[]{answer1,answer2,answer3},task));
         taskService.save(task);
+        if(userService.getById((Long) principal.getAttributes().get("id"))
+                .getRoles().contains(roleService.getRoleById(2))){
+            return "redirect:/user/"+id;
+        }
         return "redirect:/user";
     }
 

@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="col-lg-2">
-            <a class="btn btn-dark w-100 h-100" th:href="@{/add/task}">Add task</a>
+            <a class="btn btn-dark w-100 h-100" th:href="@{/add/task(id_user=${userId})}">Add task</a>
         </div>
     </div>
     <div class="row">
@@ -107,7 +107,7 @@
                     <td th:text="${task.name}">name</td>
                     <td th:text="${task.theme.name}">theme</td>
                     <td th:text="${task.published}">published</td>
-                    <td><a class="fas fa-pen" th:href="@{task/{id}(id=${task.id})}"></a></td>
+                    <td><a class="fas fa-pen" th:href="@{~/update/task/{id}(id=${task.id})}"></a></td>
                     <td><a class="fas fa-trash-alt" href="#" th:onclick="'deleteTask('+${task.id}+',this)'"></a></td>
                 </tr>
                 </tbody>

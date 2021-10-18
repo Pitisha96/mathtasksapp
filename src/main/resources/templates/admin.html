@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" th:content="${_csrf.getToken()}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Admin</title>
 </head>
 <body>
-    <p>This is Admin page</p>
+    <style>
+        tr:hover{
+            cursor:pointer;
+        }
+    </style>
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sign in with:</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row my-lg-2 my-1">
+                        <a class="btn btn-dark" th:href="@{/oauth2/authorization/google}">google</a>
+                    </div>
+                    <div class="row my-lg-2 my-1">
+                        <a class="btn btn-dark" th:href="@{/oauth2/authorization/github}">github</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: orangered">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">MathTasks</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+            <form th:method="get" th:action="@{/search}" class="d-flex my-2">
+                <input class="form-control me-2" type="search" placeholder="Search" name="search"
+                       aria-label="Search">
+                <input class="btn btn-outline-dark" type="submit" value="Search"/>
+            </form>
+            <div sec:authorize="!isAuthenticated">
+                <button type="button" class="btn btn-outline-dark my-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Log in
+                </button>
+            </div>
+            <div sec:authorize="isAuthenticated" class="nav-item dropdown">
+                <a class="btn btn-outline-dark dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" onclick="logout()" href="#">Log out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+    <div class="container-fluid">
+        <div class="row mt-lg-2">
+            <div class="col">
+                <table class="table table-bordered table-hover" id="table">
+                    <thead>
+                    <tr class="table-dark">
+                        <th scope="col" style="width: 6%">id</th>
+                        <th scope="col" style="width: 40%">username</th>
+                        <th scope="col" style="width: 30%">role</th>
+                        <th scope="col" style="width: 12%">published task</th>
+                        <th scope="col" style="width: 12%">solved task</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user:${users}" th:onclick="'showUser('+${user.id}+')'">
+                        <th scope="row" th:text="${user.id}">id</th>
+                        <td th:text="${user.username}">name</td>
+                        <td th:text="${user.roles.get(0).name}">theme</td>
+                        <td th:text="${userService.countPublishedTasks(user)}">published</td>
+                        <th th:text="${userService.countSolved(user)}">solvedTask</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/js/admin.js"></script>
+    <script type="text/javascript" src="/js/logout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 </body>
 </html>

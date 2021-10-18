@@ -59,6 +59,7 @@
 <form th:method="post"
       th:action="@{/task/{id}(id=${action.equals('update')?task.id:''})}"
       enctype="multipart/form-data" id="add_task">
+    <input type="hidden" name="user_id" th:value="${userId}">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-6 my-lg-0">

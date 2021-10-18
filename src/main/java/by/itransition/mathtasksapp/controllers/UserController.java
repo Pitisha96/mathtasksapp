@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class UserController {
@@ -28,6 +29,19 @@ public class UserController {
         model.addAttribute("countSolved",userService.countSolved(user));
         model.addAttribute("tasks",taskService.findAllByOwner(user));
         model.addAttribute("username",user.getUsername());
+        model.addAttribute("admin",false);
+        return "user";
+    }
+
+    @GetMapping("/user/{id}")
+    public String getUserById(@PathVariable("id") Long id,Model model,
+                              @AuthenticationPrincipal OAuth2User principal){
+        User user = userService.getById(id);
+        model.addAttribute("countTasks",userService.countPublishedTasks(user));
+        model.addAttribute("countSolved",userService.countSolved(user));
+        model.addAttribute("tasks",taskService.findAllByOwner(user));
+        model.addAttribute("username",principal.getAttributes().get("username"));
+        model.addAttribute("userId",id);
         return "user";
     }
 }

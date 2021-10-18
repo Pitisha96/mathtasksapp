@@ -43,6 +43,11 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     }
 
     @Override
+    public List<User> getAllByRoleId(Long id) {
+        return userRepository.getAllByRoleId(id);
+    }
+
+    @Override
     public String keyByPrincipal(OAuth2User principal){
         return (String) (principal.getAttributes().containsKey("login")
                         ?"login"

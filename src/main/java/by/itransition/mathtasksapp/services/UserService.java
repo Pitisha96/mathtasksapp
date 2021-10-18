@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserService{
     User save(User user);
+    List<User> getAllByRoleId(Long id);
     String keyByPrincipal(OAuth2User principal);
     Long countPublishedTasks(User user);
     Long countSolved(User user);

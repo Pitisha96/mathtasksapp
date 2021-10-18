@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,4 +14,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User getById(long id);
     @Query("select count(u) from User u join u.solvedTasks where u.id=(:id)")
     Long countSolvedTasks(long id);
+    @Query("from User u join u.roles r where r.id=(:id)")
+    List<User> getAllByRoleId(Long id);
 }
