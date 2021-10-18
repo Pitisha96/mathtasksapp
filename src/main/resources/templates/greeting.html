@@ -75,7 +75,7 @@
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-lg-6 p-1">
-            <h5>Последние опубликованные задачи:</h5>
+            <h5>Last published tasks:</h5>
             <a class="btn btn-outline-dark w-100" th:href="@{/task/{id}(id=${task.id})}" th:each="task:${lastPublished}">
                 <h6 class="text-truncate my-0" th:text="${task.name}"></h6>
                 <p class="small my-0" th:text="${task.theme.name}"></p>
@@ -89,7 +89,7 @@
             </a>
         </div>
         <div class="col-lg-6 p-1">
-            <h5>Популярные задачи:</h5>
+            <h5>Popular tasks:</h5>
             <a class="btn btn-outline-dark w-100" th:href="@{/task/{id}(id=${task.id})}" th:each="task:${topRating}">
                 <h6 class="text-truncate my-0" th:text="${task.name}"></h6>
                 <p class="small my-0" th:text="${task.theme.name}"></p>
@@ -104,7 +104,7 @@
         </div>
     </div>
     <div class="row mt-1">
-        <h5>Последние использованные теги:</h5>
+        <h5>Last used tags:</h5>
         <div class="col-auto col-lg-auto my-2" th:each="tag:${lastTags}">
             <a class="btn btn-dark btn-sm" th:href="@{tag_task?search={tagName}(tagName=${tag.name})}"
                th:text="${tag.name}+' '" style="width: 100%"></a>
