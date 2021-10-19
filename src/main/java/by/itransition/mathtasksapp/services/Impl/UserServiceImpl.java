@@ -1,6 +1,6 @@
 package by.itransition.mathtasksapp.services.Impl;
 
-import by.itransition.mathtasksapp.models.Role;
+
 import by.itransition.mathtasksapp.models.Task;
 import by.itransition.mathtasksapp.models.User;
 import by.itransition.mathtasksapp.repositories.UserRepository;
